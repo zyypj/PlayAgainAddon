@@ -2,6 +2,7 @@ package me.zyypj.playagain.support.bedwars2023;
 
 import com.tomkeuper.bedwars.api.addon.Addon;
 import me.zyypj.playagain.PlayAgainAddon;
+import me.zyypj.playagain.command.bedwars2023.PlayAgainCommand;
 import me.zyypj.playagain.config.MainConfig;
 import me.zyypj.playagain.config.bedwars2023.MessagesData;
 import me.zyypj.playagain.listeners.bedwars2023.ArenaEvent;
@@ -48,6 +49,7 @@ public class BedWarsAddon extends Addon {
 
         loadConfig();
         loadListener();
+        loadCommands();
 
         Utility.info("SUPPORT LOADED!");
     }
@@ -58,18 +60,33 @@ public class BedWarsAddon extends Addon {
     }
 
     public void loadConfig() {
+        long startTime = System.currentTimeMillis();
         Utility.info("&eLoading config...");
         mainConfig = new MainConfig(PlayAgainAddon.getPlugins(), "config", bw2023Api.getAddonsPath().getPath() + File.separator + "PlayAgain");
-        Utility.info("&aConfig loaded!");
+        long endTime = System.currentTimeMillis();
+        Utility.info("&aConfig loaded! " + (endTime - startTime) + "ms");
+
+        startTime = System.currentTimeMillis();
         Utility.info("&eLoading messages...");
         new MessagesData();
-        Utility.info("&aMessages loaded!");
+        endTime = System.currentTimeMillis();
+        Utility.info("&aMessages loaded! " + (endTime - startTime) + "ms");
     }
 
     public void loadListener() {
+        long startTime = System.currentTimeMillis();
         Utility.info("&eRegistering listeners...");
-        Bukkit.getPluginManager().registerEvents(new ArenaEvent(), getPlugin());
-        Bukkit.getPluginManager().registerEvents(new InventoryListener(), getPlugin());
-        Utility.info("&aListeners registered!");
+        Bukkit.getPluginManager().registerEvents(new ArenaEvent(), getPlugins());
+        Bukkit.getPluginManager().registerEvents(new InventoryListener(), getPlugins());
+        long endTime = System.currentTimeMillis();
+        Utility.info("&aListeners registered! " + (endTime - startTime) + "ms");
+    }
+
+    public void loadCommands() {
+        long startTime = System.currentTimeMillis();
+        Utility.info("&eRegistering commands...");
+        PlayAgainAddon.getPlugins().getCommand("playagain").setExecutor(new PlayAgainCommand());
+        long endTime = System.currentTimeMillis();
+        Utility.info("&aCommands registered! " + (endTime - startTime) + "ms");
     }
 }

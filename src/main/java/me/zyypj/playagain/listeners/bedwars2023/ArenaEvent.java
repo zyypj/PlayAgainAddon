@@ -1,5 +1,6 @@
 package me.zyypj.playagain.listeners.bedwars2023;
 
+import com.tomkeuper.bedwars.api.arena.IArena;
 import com.tomkeuper.bedwars.api.events.gameplay.GameEndEvent;
 import me.zyypj.playagain.PlayAgainAddon;
 import me.zyypj.playagain.utils.Utility;
@@ -13,20 +14,34 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static me.zyypj.playagain.config.ConfigPaths.*;
 
 public class ArenaEvent implements Listener {
 
+    public static Map<Player, String> lastMatch = new HashMap<>();
+
     @EventHandler
     public void onGameStateChange(GameEndEvent e) {
+        IArena arena = e.getArena();
+        String group = arena.getGroup();
+
         List<UUID> winnersUUID = e.getWinners();
         if (winnersUUID == null) return;
         for (UUID winnerUUID : winnersUUID) {
             Player player = Bukkit.getPlayer(winnerUUID);
             if (player == null) return;
+
+            if (lastMatch.containsKey(player)) {
+                lastMatch.remove(player);
+
+                lastMatch.put(player, group);
+            }
+
             Inventory inventory = player.getInventory();
 
             int playAgainSlot = PlayAgainAddon.mainConfig.getInt(PLAY_AGAIN_ITEM_SLOT) - 1;
