@@ -1,6 +1,5 @@
 package me.zyypj.playagain.listeners.bedwars2023;
 
-import com.tomkeuper.bedwars.api.arena.IArena;
 import com.tomkeuper.bedwars.api.events.gameplay.GameEndEvent;
 import me.zyypj.playagain.PlayAgainAddon;
 import me.zyypj.playagain.utils.Utility;
@@ -30,19 +29,35 @@ public class ArenaEvent implements Listener {
             if (player == null) return;
             Inventory inventory = player.getInventory();
 
+            int playAgainSlot = PlayAgainAddon.mainConfig.getInt(PLAY_AGAIN_ITEM_SLOT) - 1;
+            int lobbySlot = PlayAgainAddon.mainConfig.getInt(LEAVE_ITEM_SLOT) - 1;
+
             ItemStack playAgainItem = new ItemStack(Material.getMaterial(PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_TYPE)));
             ItemMeta playAgainMeta = playAgainItem.getItemMeta();
             playAgainMeta.setDisplayName(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME));
             playAgainMeta.setLore(Utility.getListMsg(player, PLAY_AGAIN_ITEM_LORE));
             playAgainItem.setItemMeta(playAgainMeta);
-            inventory.setItem(PlayAgainAddon.mainConfig.getInt(PLAY_AGAIN_ITEM_SLOT) - 1, playAgainItem);
 
             ItemStack lobbyItem = new ItemStack(Material.getMaterial(PlayAgainAddon.mainConfig.getString(LEAVE_ITEM_TYPE)));
             ItemMeta lobbyMeta = lobbyItem.getItemMeta();
             lobbyMeta.setDisplayName(Utility.getMsg(player, LEAVE_ITEM_NAME));
             lobbyMeta.setLore(Utility.getListMsg(player, LEAVE_ITEM_LORE));
             lobbyItem.setItemMeta(lobbyMeta);
-            inventory.setItem(PlayAgainAddon.mainConfig.getInt(LEAVE_ITEM_SLOT) - 1, lobbyItem);
+
+            Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> {
+
+                if (playAgainSlot >= 0 && playAgainSlot < inventory.getSize()) {
+                    inventory.setItem(playAgainSlot, playAgainItem);
+                } else {
+                    Utility.warn("Invalid PLAY_AGAIN_ITEM_SLOT: " + playAgainSlot);
+                }
+
+                if (lobbySlot >= 0 && lobbySlot < inventory.getSize()) {
+                    inventory.setItem(lobbySlot, lobbyItem);
+                } else {
+                    Utility.warn("Invalid LEAVE_ITEM_SLOT: " + lobbySlot);
+                }
+            }, 1L);
         }
     }
 
@@ -56,7 +71,7 @@ public class ArenaEvent implements Listener {
 
         if (displayName.equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME)) ||
                 displayName.equals(Utility.getMsg(player, LEAVE_ITEM_NAME))) {
-            event.setCancelled(true); // Cancela a ação
+            event.setCancelled(true);
         }
     }
 }
