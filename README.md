@@ -1,59 +1,66 @@
 # PlayAgainAddon
 
-**PlayAgain** is an addon for the **BedWars2023** plugin that provides convenient features for players to quickly play again or return to the lobby after a match ends. This addon is designed to enhance the player's experience by adding configurable items such as a "Play Again" button and a "Return to Lobby" button.
+**PlayAgainAddon** is a simple but powerful addon for BedWars servers (supports both BedWars1058 and BedWars2023). It introduces a `/playagain` command that allows players to quickly join another game with their current team or find a match of the same mode they recently played, even from the lobby. The addon also includes customizable leave and play-again items and full control over configuration settings.
 
 ## Features
-- Automatically adds "Play Again" and "Return to Lobby" items to the player's inventory after a BedWars game ends.
-- Supports multiple configurations for item types, names, and commands.
-  
+
+- Automatically adds "Play Again" and "Leave" items to players' inventories after a game ends.
+- Join a new match with the `/playagain` command.
+- Ability to reload the plugin with `/playagain reload`.
+- Tracks match history for easy transition to the next game.
+- Fully customizable via config file.
+
 ## Installation
 
-1. **Download the PlayAgain addon**: 
-   - Get the latest version of the PlayAgain addon from the [Releases page](https://github.com/zyypj/PlayAgainAddon/releases).
+1. Download the **PlayAgainAddon** plugin.
+2. Place the plugin `.jar` file in your server's `/plugins/` folder.
+3. Restart your server or reload the plugins with `/reload`.
+4. Configure the plugin via `config.yml` (details below).
 
-2. **Add to your BedWars2023 server**:
-   - Place the downloaded `.jar` file in your `plugins` folder.
+## Commands
 
-3. **Start your server**:
-   - Launch your Minecraft server. The plugin will automatically detect and hook into BedWars2023.
+- `/playagain` – Sends the player to the next match, either with the same team or in the same mode, depending on the recent game.
+- `/playagain reload` – Reloads the plugin configuration and settings (requires permission `playagain.reload`).
 
-4. **Configuration**:
-   - After the first startup, a config file will be generated. You can find it at `plugins/BedWars2023/Addons/PlayAgain/config.yml`. Modify it to suit your needs.
-  
-## Configuration
+## Permissions
 
-The `config.yml` allows customization of the items that appear after a BedWars match. Below is a list of configuration options:
+- `playagain.reload` – Allows access to the `/playagain reload` command.
+
+## Configuration (config.yml)
+
+Here’s an example `config.yml` file for **PlayAgainAddon**:
 
 ```yaml
-play-again-item:
-  type: "PAPER"
-  command: "internal" # Use "internal" for BedWars group-based random join or specify a custom command
-  slot: 1
+# PlayAgainAddon By tadeu (@zypj)
 
-leave-item:
-  type: "BED"
-  command: "lobby"
-  slot: 9
+reload-permission: playagain.reload
+
+leave:
+  item:
+    type: BED
+    slot: 9
+    command: bw leave
+
+play-again:
+  item:
+    type: PAPER
+    slot: 8
+    command: internal
+
+use-command: true
 ```
 
-- `play-again-item`: Configuration for the "Play Again" item.
-  - `type`: The item type (e.g., `DIAMOND_SWORD` or `IRON_SWORD`).
-  - `command`: Either use `"internal"` to join a random match or specify a custom command to be executed.
-  - `slot`: The inventory slot where the item will appear (1-9).
+### Config Options
 
-- `leave-item`: Configuration for the "Return to Lobby" item.
-  - `type`: The item type.
-  - `command`: Command executed when the player clicks this item.
-  - `slot`: The inventory slot where this item appears.
+- `reload-permission`: The permission node required to use the `/playagain reload` command.
+- `leave.item.type`: The item type for the "Leave" button (default: BED).
+- `leave.item.slot`: The inventory slot where the "Leave" item will appear (default: 9).
+- `leave.item.command`: The command executed when the player clicks the "Leave" item (default: `bw leave`).
+- `play-again.item.type`: The item type for the "Play Again" button (default: PAPER).
+- `play-again.item.slot`: The inventory slot where the "Play Again" item will appear (default: 8).
+- `play-again.item.command`: The command executed when the player clicks the "Play Again" item (default: `internal`).
+- `use-command`: Whether to enable the `/playagain` command (default: true).
 
-## Compatibility
-- **Minecraft Version**: 1.8.x and above
-- **Required Plugin**: [BedWars2023](https://github.com/tomkeuper/bedwars2023)
+## Bug Reports and Suggestions
 
-## Support
-
-If you encounter any issues, feel free to open an issue on the [GitHub Issues page](https://github.com/zyypj/PlayAgainAddon/issues) or reach out via Discord.
-
-## Credits
-
-Developed by **tadeu** ([@zyypj](https://github.com/zyypj)).
+For bug reports or feature requests, please create an issue at [GitHub Issues page](https://github.com/your-repo/issues) or DM me on Discord.
