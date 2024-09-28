@@ -134,6 +134,14 @@
       </dependency>
 
       <dependency>
+          <groupId>com.andrei1058</groupId>
+          <artifactId>BedWars1058</artifactId>
+          <version>24.9</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/libs/BedWars1058.jar</systemPath>
+      </dependency>
+
+      <dependency>
           <groupId>me.clip</groupId>
           <artifactId>placeholderapi</artifactId>
           <version>2.11.5</version>

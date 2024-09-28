@@ -31,11 +31,13 @@ public class Utility {
 
     public static String getMsg(Player player, String path) {
         if (PlayAgainAddon.getSupport() == Support.BEDWARS2023) return p(player, PlayAgainAddon.getBw2023Api().getPlayerLanguage(player).getString(path));
+        if (PlayAgainAddon.getSupport() == Support.BEDWARS1058) return p(player, PlayAgainAddon.getBw1058Api().getPlayerLanguage(player).getString(path));
         else return c("&cMISSING");
     }
 
     public static List<String> getListMsg(Player player, String path) {
         if (PlayAgainAddon.getSupport() == Support.BEDWARS2023) return PlayAgainAddon.getBw2023Api().getPlayerLanguage(player).getList(path).stream().map(s -> p(player, s)).collect(Collectors.toList());
+        if (PlayAgainAddon.getSupport() == Support.BEDWARS1058) return PlayAgainAddon.getBw1058Api().getPlayerLanguage(player).getList(path).stream().map(s -> p(player, s)).collect(Collectors.toList());
         else return Collections.singletonList(c("&cMISSING"));
     }
 }

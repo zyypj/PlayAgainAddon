@@ -1,4 +1,4 @@
 name: PlayAgainAddon
 version: '${project.version}'
 main: me.zyypj.playagain.PlayAgainAddon
-softdepend: [BedWars2023, PlaceholderAPI]
+softdepend: [BedWars2023, BedWars1058, PlaceholderAPI]
