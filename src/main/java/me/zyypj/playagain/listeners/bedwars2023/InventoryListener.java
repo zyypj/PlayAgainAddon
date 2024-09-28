@@ -30,6 +30,7 @@ public class InventoryListener implements Listener {
         if (item.getItemMeta().getDisplayName().equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME))) {
             String command = PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_COMMAND);
             if (command.equalsIgnoreCase("internal")) {
+                arena.removePlayer(player,true);
                 bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
             } else {
                 player.performCommand(command);
