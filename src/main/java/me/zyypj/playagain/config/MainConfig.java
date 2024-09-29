@@ -22,6 +22,7 @@ public class MainConfig extends ConfigManager {
         yml.addDefault(PLAY_AGAIN_ITEM_COMMAND, "internal");
         yml.addDefault(USE_COMMAND, true);
         yml.addDefault(GROUPS_BLOCKED, Arrays.asList("group1", "group2", "group3"));
+        yml.addDefault(COOLDOWN_TIME, 5);
         yml.options().copyDefaults(true);
         save();
     }

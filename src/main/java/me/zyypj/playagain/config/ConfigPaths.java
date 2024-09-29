@@ -11,6 +11,7 @@ public class ConfigPaths {
     public static final String PLAY_AGAIN_ITEM_COMMAND = "play-again.item.command";
     public static final String USE_COMMAND = "use-play-again-command";
     public static final String GROUPS_BLOCKED = "groups-blocked";
+    public static final String COOLDOWN_TIME = "cooldown-time";
 
     // MESSAGE
     public static final String PATH = "addons.play-again.";
@@ -23,4 +24,6 @@ public class ConfigPaths {
     public static final String LEAVE_ITEM_NAME = PATH + "leave.item.name";
     public static final String LEAVE_ITEM_LORE = PATH + "leave.item.lore";
     public static final String GROUP_BLOCKED = PATH + "group-blocked";
+    public static final String COMMAND_COOLDOWN = PATH + "command-cooldown";
+    public static final String NOT_PARTY_OWNER = PATH + "not-party-owner";
 }

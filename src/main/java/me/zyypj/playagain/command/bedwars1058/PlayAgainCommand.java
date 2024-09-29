@@ -4,18 +4,25 @@ import com.andrei1058.bedwars.api.arena.GameState;
 import com.andrei1058.bedwars.api.arena.IArena;
 import com.andrei1058.bedwars.api.BedWars;
 import me.zyypj.playagain.PlayAgainAddon;
+import me.zyypj.playagain.config.ConfigPaths;
 import me.zyypj.playagain.listeners.bedwars1058.ArenaEvent;
 import me.zyypj.playagain.utils.Utility;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static me.zyypj.playagain.config.ConfigPaths.*;
 
 public class PlayAgainCommand implements CommandExecutor {
 
     BedWars bwAPI = PlayAgainAddon.bw1058Api;
+    private static final Map<Player, Long> cooldowns = new HashMap<>();
+    private static final int COOLDOWN_TIME = PlayAgainAddon.mainConfig.getInt(ConfigPaths.COOLDOWN_TIME);
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -28,14 +35,33 @@ public class PlayAgainCommand implements CommandExecutor {
                 return true;
             }
 
+            long currentTime = System.currentTimeMillis() / 1000;
+
+            if (cooldowns.containsKey(player)) {
+                long lastUsed = cooldowns.get(player);
+                long timeLeft = COOLDOWN_TIME - (currentTime - lastUsed);
+
+                if (timeLeft > 0) {
+                    String cooldownMessage = Utility.getMsg(player, COMMAND_COOLDOWN).replace("{TIME}", String.valueOf(timeLeft));
+                    player.sendMessage(cooldownMessage);
+                    return true;
+                }
+            }
+
             IArena arena = bwAPI.getArenaUtil().getArenaByPlayer(player);
+
+            cooldowns.put(player, currentTime);
 
             if (arena == null) {
 
                 if (ArenaEvent.lastMatch.containsKey(player) &&
                         bwAPI.getArenaUtil().getArenaByPlayer(player) == null) {
                     String group = ArenaEvent.lastMatch.get(player);
-                    bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
+                    if (!checkParty(player)) {
+                        player.sendMessage(Utility.getMsg(player, NOT_PARTY_OWNER));
+                        return true;
+                    }
+                    Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
                     return true;
                 }
 
@@ -46,23 +72,32 @@ public class PlayAgainCommand implements CommandExecutor {
             String group = arena.getGroup();
 
             if (arena.getStatus() == GameState.waiting) {
-                if (arena.getPlayers().size() < arena.getMaxPlayers()) {
-                    player.sendMessage(Utility.getMsg(player, PLAYER_IS_IN_ARENA));
-                } else {
-                    arena.removePlayer(player, true);
-                    bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
-                }
+                player.sendMessage(Utility.getMsg(player, PLAYER_IS_IN_ARENA));
+                return true;
+            }
+
+            if (arena.getStatus() == GameState.playing) {
+                player.sendMessage(Utility.getMsg(player, PLAYER_IS_IN_ARENA));
                 return true;
             }
 
             if (bwAPI.getArenaUtil().isSpectating(player)) {
+                if (!checkParty(player)) {
+                    player.sendMessage(Utility.getMsg(player, NOT_PARTY_OWNER));
+                    return true;
+                }
                 arena.removeSpectator(player, true);
-                bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
+                Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
+                return true;
+            }
+
+            if (!checkParty(player)) {
+                player.sendMessage(Utility.getMsg(player, NOT_PARTY_OWNER));
                 return true;
             }
 
             arena.removePlayer(player, true);
-            bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
+            Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
             return true;
         }
 
@@ -80,5 +115,10 @@ public class PlayAgainCommand implements CommandExecutor {
 
         player.sendMessage(Utility.getMsg(player, COMMAND_NOT_FOUND));
         return true;
+    }
+
+    private boolean checkParty(Player player) {
+        return !bwAPI.getPartyUtil().hasParty(player) ||
+                bwAPI.getPartyUtil().isOwner(player);
     }
 }

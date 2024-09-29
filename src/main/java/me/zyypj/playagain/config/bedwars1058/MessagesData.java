@@ -26,6 +26,9 @@ public class MessagesData {
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClique para jogar novamente"));
                     yml.addDefault(LEAVE_ITEM_NAME, "&aVoltar ao Lobby");
                     yml.addDefault(LEAVE_ITEM_LORE, Arrays.asList(" ", "&eClique para voltar ao lobby"));
+                    yml.addDefault(GROUP_BLOCKED, "&cPlayAgain está bloqueado nesse modo!");
+                    yml.addDefault(COMMAND_COOLDOWN, "&cVocê deve esperar {TIME}s antes de usar isto novamente!");
+                    yml.addDefault(NOT_PARTY_OWNER, "&cVocê não é dono de nenhuma party!");
                     break;
                 default:
                     yml.addDefault(NO_PERM, "&cYou do not have permission to use this command");
@@ -36,6 +39,9 @@ public class MessagesData {
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClick to play again"));
                     yml.addDefault(LEAVE_ITEM_NAME, "&aReturn to Lobby");
                     yml.addDefault(LEAVE_ITEM_LORE, Arrays.asList(" ", "&eClick to return to lobby"));
+                    yml.addDefault(GROUP_BLOCKED, "&cPlayAgain is blocked in this mode!");
+                    yml.addDefault(COMMAND_COOLDOWN, "&cYou must wait {TIME}s before using that again!");
+                    yml.addDefault(NOT_PARTY_OWNER, "&cYou are not the owner of any party!");
                     break;
             }
             yml.options().copyDefaults(true);

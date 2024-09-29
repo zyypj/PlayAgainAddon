@@ -1,8 +1,10 @@
 package me.zyypj.playagain.listeners.bedwars1058;
 
-import com.cryptomorin.xseries.XMaterial;
+import com.andrei1058.bedwars.api.BedWars;
 import com.andrei1058.bedwars.api.arena.IArena;
 import com.andrei1058.bedwars.api.events.gameplay.GameEndEvent;
+import com.cryptomorin.xseries.XMaterial;
+import com.andrei1058.bedwars.api.events.player.PlayerKillEvent;
 import me.zyypj.playagain.PlayAgainAddon;
 import me.zyypj.playagain.utils.Utility;
 import org.bukkit.Bukkit;
@@ -14,16 +16,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static me.zyypj.playagain.config.ConfigPaths.*;
 
 public class ArenaEvent implements Listener {
 
+    BedWars bwAPI = PlayAgainAddon.bw1058Api;
     public static Map<Player, String> lastMatch = new HashMap<>();
 
     @EventHandler
@@ -89,16 +88,53 @@ public class ArenaEvent implements Listener {
     }
 
     @EventHandler
+    public void onPlayerKill(PlayerKillEvent e) {
+        Player victim = e.getVictim();
+
+        if (victim == null) return;
+        if (!e.getCause().isFinalKill()) return;
+
+        Inventory inventory = victim.getInventory();
+
+        int playAgainSlot = PlayAgainAddon.mainConfig.getInt(PLAY_AGAIN_ITEM_SLOT) - 1;
+
+        Optional<XMaterial> playAgainXMaterial = XMaterial.matchXMaterial(PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_TYPE));
+        if (playAgainXMaterial.isEmpty()) {
+            Utility.warn("Invalid material for PLAY_AGAIN_ITEM_TYPE: " + PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_TYPE));
+            return;
+        }
+        ItemStack playAgainItem = playAgainXMaterial.get().parseItem();
+        assert playAgainItem != null;
+        ItemMeta playAgainMeta = playAgainItem.getItemMeta();
+        playAgainMeta.setDisplayName(Utility.getMsg(victim, PLAY_AGAIN_ITEM_NAME));
+        playAgainMeta.setLore(Utility.getListMsg(victim, PLAY_AGAIN_ITEM_LORE));
+        playAgainItem.setItemMeta(playAgainMeta);
+
+        Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> {
+
+            if (playAgainSlot >= 0 && playAgainSlot < inventory.getSize()) {
+                inventory.setItem(playAgainSlot, playAgainItem);
+            } else {
+                Utility.warn("Invalid PLAY_AGAIN_ITEM_SLOT: " + playAgainSlot);
+            }
+        }, 20L);
+    }
+
+    @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         ItemStack clickedItem = event.getCurrentItem();
         if (clickedItem == null || !clickedItem.hasItemMeta()) return;
 
-        String displayName = clickedItem.getItemMeta().getDisplayName();
+        ItemMeta itemMeta = clickedItem.getItemMeta();
+        if (itemMeta == null || !itemMeta.hasDisplayName()) return;
+
+        String displayName = itemMeta.getDisplayName();
         Player player = (Player) event.getWhoClicked();
 
-        if (displayName.equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME)) ||
-                displayName.equals(Utility.getMsg(player, LEAVE_ITEM_NAME))) {
+        if (displayName != null && (displayName.equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME)) ||
+                displayName.equals(Utility.getMsg(player, LEAVE_ITEM_NAME)))) {
             event.setCancelled(true);
         }
     }
+
 }
