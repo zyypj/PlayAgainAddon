@@ -14,6 +14,7 @@ public class ConfigPaths {
     // MESSAGE
     public static final String PATH = "addons.play-again.";
     public static final String PLAYER_NOT_IN_ARENA = PATH + "player-not-in-arena";
+    public static final String PLAYER_IS_IN_ARENA = PATH + "player-is-in-arena";
     public static final String NO_PERM = PATH + "no-permission";
     public static final String COMMAND_NOT_FOUND = PATH + "command-not-found";
     public static final String PLAY_AGAIN_ITEM_NAME =  PATH + "play-again.item.name";

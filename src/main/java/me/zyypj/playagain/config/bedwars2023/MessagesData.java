@@ -18,8 +18,9 @@ public class MessagesData {
             YamlConfiguration yml = l.getYml();
             switch (l.getIso()) {
                 case "pt":
-                    yml.addDefault(PLAYER_NOT_IN_ARENA, "&cVocê não está em uma arena!");
                     yml.addDefault(NO_PERM, "&cVocê não tem permissão para isso!");
+                    yml.addDefault(PLAYER_NOT_IN_ARENA, "&cVocê não está em uma arena!");
+                    yml.addDefault(PLAYER_IS_IN_ARENA, "&cVocê já está nessa arena!");
                     yml.addDefault(COMMAND_NOT_FOUND, "&cComando não encontrado!");
                     yml.addDefault(PLAY_AGAIN_ITEM_NAME, "&aJogar Novamente");
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClique para jogar novamente"));
@@ -29,6 +30,7 @@ public class MessagesData {
                 default:
                     yml.addDefault(NO_PERM, "&cYou do not have permission to use this command");
                     yml.addDefault(PLAYER_NOT_IN_ARENA, "&cYou are not in an arena!");
+                    yml.addDefault(PLAYER_IS_IN_ARENA, "&cYou are already in this arena!");
                     yml.addDefault(COMMAND_NOT_FOUND, "&cCommand not found!");
                     yml.addDefault(PLAY_AGAIN_ITEM_NAME, "&aPlay Again");
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClick to play again"));

@@ -25,7 +25,7 @@ public class InventoryListener implements Listener {
         IArena arena = bwAPI.getArenaUtil().getArenaByPlayer(player);
         String group = arena.getGroup();
 
-        if (item == null) return;
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
         if (item.getItemMeta().getDisplayName().equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME))) {
             String command = PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_COMMAND);

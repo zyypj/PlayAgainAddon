@@ -1,7 +1,8 @@
 package me.zyypj.playagain.command.bedwars1058;
 
-import com.andrei1058.bedwars.api.BedWars;
+import com.andrei1058.bedwars.api.arena.GameState;
 import com.andrei1058.bedwars.api.arena.IArena;
+import com.andrei1058.bedwars.api.BedWars;
 import me.zyypj.playagain.PlayAgainAddon;
 import me.zyypj.playagain.listeners.bedwars1058.ArenaEvent;
 import me.zyypj.playagain.utils.Utility;
@@ -31,7 +32,8 @@ public class PlayAgainCommand implements CommandExecutor {
 
             if (arena == null) {
 
-                if (ArenaEvent.lastMatch.containsKey(player)) {
+                if (ArenaEvent.lastMatch.containsKey(player) &&
+                        bwAPI.getArenaUtil().getArenaByPlayer(player) == null) {
                     String group = ArenaEvent.lastMatch.get(player);
                     bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
                     return true;
@@ -42,6 +44,23 @@ public class PlayAgainCommand implements CommandExecutor {
             }
 
             String group = arena.getGroup();
+
+            if (arena.getStatus() == GameState.waiting) {
+                if (arena.getPlayers().size() < arena.getMaxPlayers()) {
+                    player.sendMessage(Utility.getMsg(player, PLAYER_IS_IN_ARENA));
+                } else {
+                    arena.removePlayer(player, true);
+                    bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
+                }
+                return true;
+            }
+
+            if (bwAPI.getArenaUtil().isSpectating(player)) {
+                arena.removeSpectator(player, true);
+                bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
+                return true;
+            }
+
             arena.removePlayer(player, true);
             bwAPI.getArenaUtil().joinRandomFromGroup(player, group);
             return true;
