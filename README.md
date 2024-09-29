@@ -48,6 +48,10 @@ play-again:
     command: internal
 
 use-command: true
+groups-blocked:
+- "group1"
+- "group2"
+- "group3"
 ```
 
 ### Config Options
