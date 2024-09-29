@@ -2,6 +2,7 @@ name: PlayAgainAddon
 version: '${project.version}'
 main: me.zyypj.playagain.PlayAgainAddon
 softdepend: [BedWars2023, BedWars1058, PlaceholderAPI]
+api-version: "1.13"
 commands:
   playagain:
     aliases: [jogarnovamente, pa]
