@@ -50,32 +50,44 @@
   </build>
 
   <repositories>
+
       <repository>
           <id>spigotmc-repo</id>
           <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
       </repository>
+
       <repository>
           <id>bedwars2023-releases</id>
           <url>https://repo.tomkeuper.com/repository/releases/</url>
       </repository>
+
       <repository>
           <id>dv8tion</id>
           <name>m2-dv8tion</name>
           <url>https://m2.dv8tion.net/releases</url>
       </repository>
+
       <repository>
           <id>placeholderapi</id>
           <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
       </repository>
+
+      <repository>
+          <id>minecraft-libraries</id>
+          <name>Minecraft Libraries</name>
+          <url>https://libraries.minecraft.net/</url>
+      </repository>
   </repositories>
 
   <dependencies>
+
       <dependency>
           <groupId>org.spigotmc</groupId>
           <artifactId>spigot-api</artifactId>
           <version>1.8.8-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
+
       <dependency>
           <groupId>org.yaml</groupId>
           <artifactId>snakeyaml</artifactId>
@@ -106,10 +118,40 @@
       </dependency>
 
       <dependency>
+          <groupId>com.andrei1058</groupId>
+          <artifactId>BedWarsProxu1058</artifactId>
+          <version>1.3</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/libs/BedWarsProxy1058.jar</systemPath>
+      </dependency>
+
+      <dependency>
+          <groupId>com.tomkeuper</groupId>
+          <artifactId>BedWarsProxy2023</artifactId>
+          <version>1.0.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/libs/BedWarsProxy2023.jar</systemPath>
+      </dependency>
+
+      <dependency>
           <groupId>me.clip</groupId>
           <artifactId>placeholderapi</artifactId>
           <version>2.11.5</version>
           <scope>provided</scope>
       </dependency>
+
+      <dependency>
+          <groupId>com.github.cryptomorin</groupId>
+          <artifactId>XSeries</artifactId>
+          <version>11.3.0</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.mojang</groupId>
+          <artifactId>authlib</artifactId>
+          <version>6.0.54</version>
+          <scope>provided</scope>
+      </dependency>
+
   </dependencies>
 </project>
