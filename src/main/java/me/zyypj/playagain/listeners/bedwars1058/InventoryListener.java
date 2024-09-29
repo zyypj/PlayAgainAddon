@@ -10,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 import static me.zyypj.playagain.config.ConfigPaths.*;
 
 public class InventoryListener implements Listener {
@@ -28,6 +30,13 @@ public class InventoryListener implements Listener {
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
         if (item.getItemMeta().getDisplayName().equals(Utility.getMsg(player, PLAY_AGAIN_ITEM_NAME))) {
+
+            List<String> blockedGroups = PlayAgainAddon.mainConfig.getList(GROUPS_BLOCKED);
+            if (blockedGroups.contains(group)) {
+                player.sendMessage(Utility.getMsg(player, GROUP_BLOCKED));
+                return;
+            }
+
             String command = PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_COMMAND);
             if (command.equalsIgnoreCase("internal")) {
                 arena.removePlayer(player,true);

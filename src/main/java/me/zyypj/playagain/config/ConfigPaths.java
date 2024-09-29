@@ -10,6 +10,7 @@ public class ConfigPaths {
     public static final String PLAY_AGAIN_ITEM_SLOT = "play-again.item.slot";
     public static final String PLAY_AGAIN_ITEM_COMMAND = "play-again.item.command";
     public static final String USE_COMMAND = "use-play-again-command";
+    public static final String GROUPS_BLOCKED = "groups-blocked";
 
     // MESSAGE
     public static final String PATH = "addons.play-again.";
@@ -21,4 +22,5 @@ public class ConfigPaths {
     public static final String PLAY_AGAIN_ITEM_LORE = PATH + "play-again.item.lore";
     public static final String LEAVE_ITEM_NAME = PATH + "leave.item.name";
     public static final String LEAVE_ITEM_LORE = PATH + "leave.item.lore";
+    public static final String GROUP_BLOCKED = PATH + "group-blocked";
 }

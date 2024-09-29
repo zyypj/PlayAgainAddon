@@ -4,6 +4,8 @@ import com.tomkeuper.bedwars.api.configuration.ConfigManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Arrays;
+
 import static me.zyypj.playagain.config.ConfigPaths.*;
 
 public class MainConfig extends ConfigManager {
@@ -19,6 +21,7 @@ public class MainConfig extends ConfigManager {
         yml.addDefault(PLAY_AGAIN_ITEM_SLOT, 8);
         yml.addDefault(PLAY_AGAIN_ITEM_COMMAND, "internal");
         yml.addDefault(USE_COMMAND, true);
+        yml.addDefault(GROUPS_BLOCKED, Arrays.asList("group1", "group2", "group3"));
         yml.options().copyDefaults(true);
         save();
     }

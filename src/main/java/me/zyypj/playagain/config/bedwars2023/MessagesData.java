@@ -26,6 +26,7 @@ public class MessagesData {
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClique para jogar novamente"));
                     yml.addDefault(LEAVE_ITEM_NAME, "&aVoltar ao Lobby");
                     yml.addDefault(LEAVE_ITEM_LORE, Arrays.asList(" ", "&eClique para voltar ao lobby"));
+                    yml.addDefault(GROUP_BLOCKED, "&cPlayAgain está bloqueado nesse modo!");
                     break;
                 default:
                     yml.addDefault(NO_PERM, "&cYou do not have permission to use this command");
@@ -36,6 +37,7 @@ public class MessagesData {
                     yml.addDefault(PLAY_AGAIN_ITEM_LORE, Arrays.asList(" ", "&eClick to play again"));
                     yml.addDefault(LEAVE_ITEM_NAME, "&aReturn to Lobby");
                     yml.addDefault(LEAVE_ITEM_LORE, Arrays.asList(" ", "&eClick to return to lobby"));
+                    yml.addDefault(GROUP_BLOCKED, "&cPlayAgain is blocked in this mode!");
                     break;
             }
             yml.options().copyDefaults(true);
