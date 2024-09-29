@@ -22,7 +22,6 @@ public final class PlayAgainAddon extends JavaPlugin {
     @Getter
     public static com.andrei1058.bedwars.api.BedWars bw1058Api;
 
-
     @Override
     public void onEnable() {
         loadSupport();

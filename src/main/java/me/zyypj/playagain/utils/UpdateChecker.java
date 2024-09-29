@@ -34,7 +34,7 @@ public class UpdateChecker {
                     if (scanner.hasNext()) {
                         String latestVersion = scanner.next();
 
-                        String currentVersion = plugin.getDescription().getVersion();
+                        String currentVersion = "v" + plugin.getDescription().getVersion();
 
                         if (!currentVersion.equalsIgnoreCase(latestVersion)) {
                             Utility.warn("There is a new update available: " + latestVersion);

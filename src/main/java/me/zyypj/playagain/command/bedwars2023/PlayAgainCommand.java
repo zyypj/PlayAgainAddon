@@ -61,7 +61,7 @@ public class PlayAgainCommand implements CommandExecutor {
                         player.sendMessage(Utility.getMsg(player, NOT_PARTY_OWNER));
                         return true;
                     }
-                    Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
+                    Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 40L);
                     return true;
                 }
 
@@ -87,7 +87,7 @@ public class PlayAgainCommand implements CommandExecutor {
                     return true;
                 }
                 arena.removeSpectator(player, true);
-                Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
+                Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 40L);
                 return true;
             }
 
@@ -97,7 +97,7 @@ public class PlayAgainCommand implements CommandExecutor {
             }
 
             arena.removePlayer(player, true);
-            Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 1L);
+            Bukkit.getScheduler().runTaskLater(PlayAgainAddon.getPlugins(), () -> bwAPI.getArenaUtil().joinRandomFromGroup(player, group), 40L);
             return true;
         }
 
