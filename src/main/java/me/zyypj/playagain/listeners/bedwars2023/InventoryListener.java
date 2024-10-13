@@ -62,7 +62,7 @@ public class InventoryListener implements Listener {
                 return;
             }
 
-            String command = PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_COMMAND);
+            String command = PlayAgainAddon.mainConfig.getString(PLAY_AGAIN_ITEM_COMMAND).replace("{GROUP}", group);
             if (command.equalsIgnoreCase("internal")) {
 
                 if (!checkParty(player)) {
